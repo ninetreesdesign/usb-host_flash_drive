@@ -34,8 +34,10 @@ const byte CTRL_Z = 26;
 const byte CR = 13;                 // Carriage Return
 const byte LF = 10;                 // Linefeed
 const int FNAME_LENGTH = 13;        // AAAAAAAA.AAA + 1
-char g_new_fname[FNAME_LENGTH]    = "TEST_02.TXT";    // must be <= 8.3 length
-char g_filename[FNAME_LENGTH]     = "A102CRLF.TXT";   // user enters this
+
+char g_folder_name[10]          = "FOLDER1";
+char g_new_fname[FNAME_LENGTH]  = "TEST_02.TXT";    // must be <= 8.3 length
+char g_filename[FNAME_LENGTH]   = "A102CRLF.TXT";   // user enters this
 // char g_filename[] = "A101CR.TXT";           // doesn't read correctly. without LF, all lines join
 const uint8_t STRING_LENGTH = 180;
 char cbuf[STRING_LENGTH];                   // String to hold commands to be sent
@@ -57,15 +59,18 @@ void setup() {
     // write header info to EEprom
     // these don't depend on flash drive being inserted
 
+   // change directory
+    sprintf(%s %s\r, "$CD",g_folder_name);
+    sendToFlash(s);
     // set date and time default values
     char the_date[11] = "2020-01-01";
     char the_time[9]  = "01:00:00";
     // set date and time default values
     char theDate[11] = "2020-01-01";
     char theTime[9]  = "01:00:00";
-    sprintf(cbuf,"%s %s \r", "$DATE", theDate);
+    sprintf(cbuf,"%s %s\r", "$DATE", theDate);
     sendToFlash(cbuf,10);
-    sprintf(cbuf,"%s %s \r", "$TIME", theTime);
+    sprintf(cbuf,"%s %s\r", "$TIME", theTime);
     sendToFlash(cbuf,10);
     Serial.println();
     delay(2501);    // should see seconds increase
